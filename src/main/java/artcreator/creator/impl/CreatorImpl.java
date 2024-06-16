@@ -13,4 +13,10 @@ public class CreatorImpl {
 		System.out.println(str);
 		
 	}
+	public void importImage(String path){
+		System.out.println("some shit");
+	}
+	public void chooseTemplateType(String type){
+		System.out.println("some shit");	
+	}
 }

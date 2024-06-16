@@ -26,6 +26,18 @@ public class CreatorFacade implements CreatorFactory, Creator {
 		if (this.stateMachine.getState().isSubStateOf( S.CREATE_TEMPLATE /* choose right state*/ ))
 			this.creator.sysop(str);
 	}
+
+	@Override
+	public void importImage(String path) {
+		// TODO Auto-generated method stub
+		this.creator.importImage(path);
+	}
+
+	@Override
+	public void chooseTemplateType(String type) {
+		// TODO Auto-generated method stub
+		this.creator.chooseTemplateType(type);
+	}
 	
 	
 	
