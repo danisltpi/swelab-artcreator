@@ -12,10 +12,15 @@ public interface State {
 
 	public enum S implements State {
 
-		CREATE_TEMPLATE //
+		CREATE_TEMPLATE, //Todo: Replace with better name?
 
-		/* more states */
-		
+		// SysOp: Import image
+		IMPORT_IMAGE,
+		INVALID_IMPORT,
+
+		// SysOp: Choose templateType
+		CHOOSE_TEMPLATE_TYPE
+
 		;
 
 		private List<State> subStates;

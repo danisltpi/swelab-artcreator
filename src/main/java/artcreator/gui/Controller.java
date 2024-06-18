@@ -30,7 +30,7 @@ public class Controller implements ActionListener, Observer {
 	   /* read input */
 		String str = (((JButton)  e.getSource()).getText());
 		  
-	    CompletableFuture.runAsync(() -> this.myModel.sysop(str));
+	    CompletableFuture.runAsync(() -> this.myModel.importImage(str));
 	  }
 	  
 	  public void update(State newState) {/* modify controller or view if necessary */}

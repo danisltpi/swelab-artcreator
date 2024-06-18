@@ -30,7 +30,8 @@ public class CreatorFacade implements CreatorFactory, Creator {
 	@Override
 	public void importImage(String path) {
 		// TODO Auto-generated method stub
-		this.creator.importImage(path);
+		if (this.stateMachine.getState().isSubStateOf( S.CREATE_TEMPLATE /* choose right state*/ ))
+			this.creator.importImage(path);
 	}
 
 	@Override
