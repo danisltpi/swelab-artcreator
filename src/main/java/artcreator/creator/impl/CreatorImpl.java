@@ -76,7 +76,7 @@ public class CreatorImpl {
 
 		// Check image size (< 50 MB)
 		long fileSizeInBytes = imageFile.length();
-		long maxSizeInBytes = 2 * 1024 * 1024;
+		long maxSizeInBytes = 50 * 1024 * 1024;
 		if (fileSizeInBytes > maxSizeInBytes) {
 			throw new IOException("The image size exceeds 50 MB");
 		}
