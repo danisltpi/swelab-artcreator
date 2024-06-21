@@ -9,6 +9,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.Buffer;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CreatorImpl {
 
@@ -16,6 +19,7 @@ public class CreatorImpl {
 	private Domain domain;
 
 	private BufferedImage image;
+	private BufferedImage templateImage;
 
 	public CreatorImpl(StateMachine stateMachine, Domain domain) {
 		this.domain = domain;
@@ -143,6 +147,71 @@ public class CreatorImpl {
 	}
 
 	public void chooseTemplateType(String type){
-		System.out.println("some shit");
+		String[] validTypes = {"rubiks", "matchsticks"};
+		if(!isTypeValid(type, validTypes)){
+			throw new Error("Invalid Type given.");
+		}
+		int[] colors = domain.getPalette(type);
+		BufferedImage templateImage = convertPicture(image, colors);
+		this.templateImage = templateImage;
+	}
+
+	private boolean isTypeValid(String type, String[] validTypes){
+		boolean returnValue = false;
+		for (String checkType: validTypes){
+			if (checkType == type){
+				returnValue = true;
+			}
+		}
+		return returnValue;
+	}
+
+	private BufferedImage convertPicture(BufferedImage image, int[] colors){
+		int height = image.getHeight();
+		int width = image.getWidth();
+		int newValue = 0;
+		BufferedImage newImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		for (int x = 0; x < width; x++){
+			for( int y = 0; y < height; y++){
+				int currentPixel = image.getRGB(x,y);
+				newValue = findNearestColor(colors, currentPixel);
+				newImage.setRGB(x,y, newValue);
+			}
+		}
+		return newImage;
+	}
+
+	private int findNearestColor(int[] colors, int currentPixel){
+		double minDistance = Double.MAX_VALUE;
+		double newDistance = 0;
+		int bestColor = 0;
+		for(int i = 0; i < colors.length; i++){
+			newDistance = calculateDistance(currentPixel, colors[i]);
+			if (newDistance < minDistance){
+				bestColor = colors[i];
+			}
+		}
+
+		return bestColor;
+	}
+	private double calculateDistance(int originalColor, int templateColor){
+		int[] originSplit = splitColor(originalColor);
+		int[] templateSplit = splitColor(templateColor);
+		int[] differenceArray = {};
+		for(int i = 0; i < originSplit.length; i++){
+			differenceArray[i] = originSplit[i] - templateSplit[i];
+		}
+		return Math.sqrt(Arrays.stream(differenceArray).sum());
+	}
+	private int[] splitColor(int color){
+		int blue = color & 0xff;
+		int green = (color & 0xff00) >> 8;
+		int red = (color & 0xff0000) >> 16;
+		int alpha = (color & 0xff000000) >>> 24;
+		return new int[]{blue, green, red, alpha};
+	}
+
+	public BufferedImage getTemplateImage(){
+		return this.templateImage;
 	}
 }

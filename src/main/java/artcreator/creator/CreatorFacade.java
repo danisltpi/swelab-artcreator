@@ -7,6 +7,8 @@ import artcreator.statemachine.StateMachineFactory;
 import artcreator.statemachine.port.StateMachine;
 import artcreator.statemachine.port.State.S;
 
+import java.awt.image.BufferedImage;
+
 public class CreatorFacade implements CreatorFactory, Creator {
 
 	private CreatorImpl creator;
@@ -39,7 +41,9 @@ public class CreatorFacade implements CreatorFactory, Creator {
 		// TODO Auto-generated method stub
 		this.creator.chooseTemplateType(type);
 	}
-	
+	public BufferedImage getTemplateImage(){
+		return this.creator.getTemplateImage();
+	}
 	
 	
 
