@@ -23,6 +23,7 @@ public class CreatorFrame extends JFrame implements Observer{
 	private Subject subject = StateMachineFactory.FACTORY.subject();
 
 	private Controller controller;
+	private SelectImageController selectImageController;
 
 	// Constants for colors
 	private static Color[] colorPalette = {
@@ -51,6 +52,7 @@ public class CreatorFrame extends JFrame implements Observer{
 
 		this.subject.attach(this);
 		this.controller = new Controller(this, subject, creator);
+		this.selectImageController = new SelectImageController(this, subject, creator);
 
 		// Initialize components
 		initializeComponents();
@@ -61,7 +63,7 @@ public class CreatorFrame extends JFrame implements Observer{
 		// Select Image Button
 		selectImageButton = new JButton("Select Image");
 		selectImageButton.setBounds(220, 30, 150, 30);
-		selectImageButton.addActionListener(this.controller);
+		selectImageButton.addActionListener(this.selectImageController);
 		add(selectImageButton);
 
 		// Image Placeholder

@@ -20,9 +20,13 @@ public class SelectImageController extends Controller {
 			JFileChooser fileChooser = new JFileChooser();
 			fileChooser.setFileFilter(new ImageFileFilter());
 			int response = fileChooser.showOpenDialog(null);
+            System.out.println("SelectImageController: actionPerformed");
+            File file;
 			if (response == JFileChooser.APPROVE_OPTION) {		
-				File file = new File(fileChooser.getSelectedFile().getAbsolutePath());
+				file = new File(fileChooser.getSelectedFile().getAbsolutePath());
                 System.out.println("Selected file: " + file.getAbsolutePath());
+                this.myModel.importImage(file);
 			}
+
     }
 }

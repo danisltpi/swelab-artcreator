@@ -1,13 +1,14 @@
 package artcreator.creator;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+
 import artcreator.creator.impl.CreatorImpl;
 import artcreator.creator.port.Creator;
 import artcreator.domain.DomainFactory;
 import artcreator.statemachine.StateMachineFactory;
-import artcreator.statemachine.port.StateMachine;
 import artcreator.statemachine.port.State.S;
-
-import java.awt.image.BufferedImage;
+import artcreator.statemachine.port.StateMachine;
 
 public class CreatorFacade implements CreatorFactory, Creator {
 
@@ -30,10 +31,10 @@ public class CreatorFacade implements CreatorFactory, Creator {
 	}
 
 	@Override
-	public void importImage(String path) {
+	public void importImage(File file) {
 		// TODO Auto-generated method stub
 		if (this.stateMachine.getState().isSubStateOf( S.CREATE_TEMPLATE /* choose right state*/ ))
-			this.creator.importImage(path);
+			this.creator.importImage(file);
 	}
 
 	@Override

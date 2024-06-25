@@ -1,17 +1,17 @@
 package artcreator.creator.impl;
 
-import artcreator.domain.port.Domain;
-import artcreator.statemachine.port.State;
-import artcreator.statemachine.port.StateMachine;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.Buffer;
-import java.util.ArrayList;
 import java.util.Arrays;
+
+import javax.imageio.ImageIO;
+
+import artcreator.domain.port.Domain;
+import artcreator.statemachine.port.State;
+import artcreator.statemachine.port.StateMachine;
 
 public class CreatorImpl {
 
@@ -39,17 +39,17 @@ public class CreatorImpl {
 	 *
 	 * 24/06/18 - Jenny
 	 */
-	public void importImage(String path){
+	public void importImage(File file){
 
         try {
-			path = "C:/path/to/image";						// Todo: Debugging tool for visual output (temporary)
-			String name = "image_input.png";				// Todo: Debugging tool for visual output (temporary)
 
-			BufferedImage tempImage = processImage(path+name);
+			BufferedImage tempImage = getImage(file);
 			this.image = scaleImage(tempImage, 60, 60);
-			saveImage(tempImage, path + "image_output.png");	// Todo: Debugging tool for visual output (temporary)
+			String path = "src/main/resources/";	// Todo: Debugging tool for visual output (temporary)
+			saveImage(this.image, path + "image_output.png");	// Todo: Debugging tool for visual output (temporary)
 
 			stateMachine.setState(State.S.CHOOSE_TEMPLATE_TYPE); // Todo: chooseTemplateType()
+			System.out.println(this.image.toString());
         }
 
 		catch (IOException e) {
@@ -69,23 +69,22 @@ public class CreatorImpl {
 	 *
 	 * 24/06/18 - Jenny
 	 */
-	private BufferedImage processImage (String path) throws IOException {
+	private BufferedImage getImage (File file) throws IOException {
 
-		File imageFile = new File(path);
 
 		// Check image existence
-		if (!imageFile.exists() || !imageFile.isFile()) {
+		if (!file.exists() || !file.isFile()) {
 			throw new IOException("The specified file does not exist or is not a file.");
 		}
 
 		// Check image size (< 50 MB)
-		long fileSizeInBytes = imageFile.length();
+		long fileSizeInBytes = file.length();
 		long maxSizeInBytes = 50 * 1024 * 1024;
 		if (fileSizeInBytes > maxSizeInBytes) {
 			throw new IOException("The image size exceeds 50 MB");
 		}
 
-		BufferedImage image = ImageIO.read(imageFile);
+		BufferedImage image = ImageIO.read(file);
 
 		// check image resolution (>= 60px x 60px)
 		if (image.getWidth() < 60 && image.getHeight() < 60) {
