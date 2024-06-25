@@ -24,8 +24,8 @@ public class CreatorFrame extends JFrame implements Observer{
 			// Color.WHITE, Color.RED
 	};
 
-	private static final Color BACKGROUND_COLOR = Color.DARK_GRAY;
-	private static final Color ELEMENT_COLOR = Color.GRAY;
+	private static final Color BACKGROUND_COLOR = new Color(42,42,42,255);
+	private static final Color ELEMENT_COLOR = new Color(74,74,74,255);
 	private static final Color FONT_COLOR = Color.WHITE;
 
 	// GUI Components
@@ -80,7 +80,7 @@ public class CreatorFrame extends JFrame implements Observer{
 		// Image Placeholder
 		imagePlaceholder = new JPanel();
 		imagePlaceholder.setBounds(50, 30, 150, 150);
-		imagePlaceholder.setBackground(Color.LIGHT_GRAY);
+		imagePlaceholder.setBackground(new Color(49,49,49,255));
 		add(imagePlaceholder);
 
 		// Path TextField
@@ -134,7 +134,7 @@ public class CreatorFrame extends JFrame implements Observer{
 		// Preview Panel
 		previewPanel = new JPanel();
 		previewPanel.setBounds(450, 70, 320, 320);
-		previewPanel.setBackground(Color.LIGHT_GRAY);
+		previewPanel.setBackground(new Color(49,49,49,255));
 		add(previewPanel);
 	}
 
