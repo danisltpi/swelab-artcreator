@@ -154,6 +154,7 @@ public class CreatorImpl {
 		int[] colors = domain.getPalette(type);
 		BufferedImage templateImage = convertPicture(image, colors);
 		this.templateImage = templateImage;
+		stateMachine.setState(State.S.TEMPLATE_CREATED);
 	}
 
 	private boolean isTypeValid(String type, String[] validTypes){
