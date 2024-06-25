@@ -50,6 +50,8 @@ public class CreatorImpl {
 
 			stateMachine.setState(State.S.CHOOSE_TEMPLATE_TYPE); // Todo: chooseTemplateType()
 			System.out.println(this.image.toString());
+			chooseTemplateType("rubiks"); //TODO: change rubiks to actual templateType chosen in GUI
+			saveImage(this.templateImage, path + "template_output.png");
         }
 
 		catch (IOException e) {
@@ -151,7 +153,7 @@ public class CreatorImpl {
 			throw new Error("Invalid Type given.");
 		}
 		int[] colors = domain.getPalette(type);
-		BufferedImage templateImage = convertPicture(image, colors);
+		BufferedImage templateImage = convertPicture(this.image, colors);
 		this.templateImage = templateImage;
 		stateMachine.setState(State.S.TEMPLATE_CREATED);
 	}
@@ -189,6 +191,7 @@ public class CreatorImpl {
 			newDistance = calculateDistance(currentPixel, colors[i]);
 			if (newDistance < minDistance){
 				bestColor = colors[i];
+				minDistance = newDistance;
 			}
 		}
 
@@ -197,9 +200,9 @@ public class CreatorImpl {
 	private double calculateDistance(int originalColor, int templateColor){
 		int[] originSplit = splitColor(originalColor);
 		int[] templateSplit = splitColor(templateColor);
-		int[] differenceArray = {};
+		int[] differenceArray = new int[originSplit.length];
 		for(int i = 0; i < originSplit.length; i++){
-			differenceArray[i] = originSplit[i] - templateSplit[i];
+			differenceArray[i] = (originSplit[i] - templateSplit[i])* (originSplit[i] - templateSplit[i]);
 		}
 		return Math.sqrt(Arrays.stream(differenceArray).sum());
 	}
