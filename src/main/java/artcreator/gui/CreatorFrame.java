@@ -104,7 +104,6 @@ public class CreatorFrame extends JFrame implements Observer{
 		createTemplateButton = new JButton("Create Template");
 		createTemplateButton.setBounds(50, 450, 150, 30);
 		createTemplateButton.setEnabled(false); // Initially disabled
-		createTemplateButton.setBackground(Color.red);
 		add(createTemplateButton);
 
 		// Export Template Button
