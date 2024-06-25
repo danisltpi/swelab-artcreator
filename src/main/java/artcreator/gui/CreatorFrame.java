@@ -1,6 +1,14 @@
 package artcreator.gui;
 
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.GridLayout;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import artcreator.creator.CreatorFactory;
 import artcreator.creator.port.Creator;
@@ -8,8 +16,6 @@ import artcreator.statemachine.StateMachineFactory;
 import artcreator.statemachine.port.Observer;
 import artcreator.statemachine.port.State;
 import artcreator.statemachine.port.Subject;
-
-import java.awt.*;
 
 public class CreatorFrame extends JFrame implements Observer{
 
@@ -21,26 +27,20 @@ public class CreatorFrame extends JFrame implements Observer{
 	// Constants for colors
 	private static Color[] colorPalette = {
 			Color.WHITE, Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE
-			// Color.WHITE, Color.RED
 	};
 
-	private static final Color BACKGROUND_COLOR = new Color(42,42,42,255);
-	private static final Color ELEMENT_COLOR = new Color(74,74,74,255);
-	private static final Color FONT_COLOR = Color.WHITE;
 
 	// GUI Components
 	private JButton selectImageButton;
 	private JPanel imagePlaceholder;
 	private JTextField pathTextField;
 	private JComboBox<String> templateModelComboBox;
-	private JPanel colorPanel;
+	private JPanel colorPalettePanel;
 	private JButton createTemplateButton;
 	private JButton exportTemplateButton;
 	private JPanel previewPanel;
 
 	public CreatorFrame() {
-		// Set Look and Feel
-		setLookAndFeel();
 
 		// Initialize the JFrame
 		setTitle("3D Art Creator");
@@ -55,19 +55,6 @@ public class CreatorFrame extends JFrame implements Observer{
 		// Initialize components
 		initializeComponents();
 
-		// Set the background color for the main panel
-		getContentPane().setBackground(BACKGROUND_COLOR);
-	}
-
-	private void setLookAndFeel() {
-		UIManager.put("Button.background", ELEMENT_COLOR);
-		UIManager.put("Button.foreground", FONT_COLOR);
-		UIManager.put("TextField.background", ELEMENT_COLOR);
-		UIManager.put("TextField.foreground", FONT_COLOR);
-		UIManager.put("ComboBox.background", ELEMENT_COLOR);
-		UIManager.put("ComboBox.foreground", FONT_COLOR);
-		UIManager.put("Label.foreground", FONT_COLOR);
-		UIManager.put("Panel.background", BACKGROUND_COLOR);
 	}
 
 	private void initializeComponents() {
@@ -95,29 +82,29 @@ public class CreatorFrame extends JFrame implements Observer{
 		add(templateModelLabel);
 
 		// Template Model ComboBox
-		String[] templateModels = {"Rubik's Cubes", "Match Sticks"};
+		String[] templateModels = {"Rubiks Cubes", "Match Sticks"};
 		templateModelComboBox = new JComboBox<>(templateModels);
 		templateModelComboBox.setBounds(220, 300, 150, 30);
 		add(templateModelComboBox);
 
 		// Color Palette Colors Panel
-		colorPanel = new JPanel();
-		colorPanel.setBounds(220, 340, 25 * colorPalette.length, 20);
-		colorPanel.setLayout(new GridLayout(1,colorPalette.length , 5, 5));
+		colorPalettePanel = new JPanel();
+		colorPalettePanel.setBounds(220, 340, 25 * colorPalette.length, 20);
+		colorPalettePanel.setLayout(new GridLayout(1,colorPalette.length , 5, 5));
 
 		for (Color color : colorPalette) {
 			JPanel colorBox = new JPanel();
 			colorBox.setBackground(color);
-			colorBox.setBorder(BorderFactory.createLineBorder(BACKGROUND_COLOR));
-			colorPanel.add(colorBox);
+			colorPalettePanel.add(colorBox);
 		}
 
-		add(colorPanel);
+		add(colorPalettePanel);
 
 		// Create Template Button
 		createTemplateButton = new JButton("Create Template");
 		createTemplateButton.setBounds(50, 450, 150, 30);
 		createTemplateButton.setEnabled(false); // Initially disabled
+		createTemplateButton.setBackground(Color.red);
 		add(createTemplateButton);
 
 		// Export Template Button
