@@ -22,7 +22,15 @@ public class DomainFacade implements DomainFactory, Domain{
 		return this.domain.mkObject();
 	}
 
+	@Override
+	public int[] getPalette(String type) {
+		return this.domain.getPalette(type);
+	}
 
+	@Override
+	public void setPalette(String type, int[] newPalette) {
+		this.domain.setPalette(type, newPalette);
+	}
 
 
 }

@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="swelab" />
+        <module name="swelab-artcreator" />
       </profile>
     </annotationProcessing>
   </component>

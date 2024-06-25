@@ -9,5 +9,6 @@ public interface Domain {
 
 	/* Factory methods */ 
 	Object mkObject();
-
+	int[] getPalette(String type);
+	void setPalette(String type, int[] newPalette);
 }

@@ -19,7 +19,10 @@ public interface State {
 		INVALID_IMPORT,
 
 		// SysOp: Choose templateType
-		CHOOSE_TEMPLATE_TYPE
+		CHOOSE_TEMPLATE_TYPE,
+
+		//Creating Template
+		TEMPLATE_CREATED
 
 		;
 
