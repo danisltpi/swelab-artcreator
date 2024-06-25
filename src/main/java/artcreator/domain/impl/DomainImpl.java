@@ -4,8 +4,8 @@ package artcreator.domain.impl;
 /* Factory for creating domain objects */ 
 
 public class DomainImpl {
-	private int[] rubiksPalette;
-	private int[] matchStickPalette;
+	private int[] rubiksPalette = {-1, -65536,-23292,-256,-16711936, -16776961};
+	private int[] matchStickPalette = {-65536,-403271};
 
 	
 	
