@@ -20,6 +20,7 @@ public class CreatorImpl {
 
 	private BufferedImage image;
 	private BufferedImage templateImage;
+	private int[] currentColors;
 
 	public CreatorImpl(StateMachine stateMachine, Domain domain) {
 		this.domain = domain;
@@ -50,7 +51,10 @@ public class CreatorImpl {
 
 			stateMachine.setState(State.S.CHOOSE_TEMPLATE_TYPE); // Todo: chooseTemplateType()
 			System.out.println(this.image.toString());
+
 			chooseTemplateType("rubiks"); //TODO: change rubiks to actual templateType chosen in GUI
+			this.templateImage = convertPicture(this.image, this.currentColors);
+			stateMachine.setState(State.S.TEMPLATE_CREATED);
 			saveImage(this.templateImage, path + "template_output.png");
         }
 
@@ -152,10 +156,7 @@ public class CreatorImpl {
 		if(!isTypeValid(type, validTypes)){
 			throw new Error("Invalid Type given.");
 		}
-		int[] colors = domain.getPalette(type);
-		BufferedImage templateImage = convertPicture(this.image, colors);
-		this.templateImage = templateImage;
-		stateMachine.setState(State.S.TEMPLATE_CREATED);
+		this.currentColors = domain.getPalette(type);
 	}
 
 	private boolean isTypeValid(String type, String[] validTypes){
