@@ -38,13 +38,17 @@ public class CreatorFacade implements CreatorFactory, Creator {
 	}
 
 	@Override
-	public void chooseTemplateType(String type) {
+	public void createPreviewWithTemplate(String type) {
 		// TODO Auto-generated method stub
-		this.creator.chooseTemplateType(type);
+		this.creator.createPreviewWithTemplate(type);
 	}
 	public BufferedImage getTemplateImage(){
 		return this.creator.getTemplateImage();
 	}
+
+	public void saveTemplate(String path){
+		this.creator.saveTemplate(path);
+	};
 	
 	
 

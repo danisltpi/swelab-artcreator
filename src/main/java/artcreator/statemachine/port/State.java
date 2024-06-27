@@ -22,7 +22,9 @@ public interface State {
 		CHOOSE_TEMPLATE_TYPE,
 
 		//Creating Template
-		TEMPLATE_CREATED
+		TEMPLATE_CREATED,
+
+		START_PROCESS
 
 		;
 

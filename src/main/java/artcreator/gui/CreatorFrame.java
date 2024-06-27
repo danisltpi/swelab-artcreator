@@ -1,14 +1,9 @@
 package artcreator.gui;
 
-import java.awt.Color;
-import java.awt.GridLayout;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import artcreator.creator.CreatorFactory;
 import artcreator.creator.port.Creator;
@@ -17,7 +12,7 @@ import artcreator.statemachine.port.Observer;
 import artcreator.statemachine.port.State;
 import artcreator.statemachine.port.Subject;
 
-public class CreatorFrame extends JFrame implements Observer{
+public class CreatorFrame extends JFrame implements Observer {
 
 	private Creator creator = CreatorFactory.FACTORY.creator();
 	private Subject subject = StateMachineFactory.FACTORY.subject();
@@ -25,10 +20,19 @@ public class CreatorFrame extends JFrame implements Observer{
 	private Controller controller;
 	private SelectImageController selectImageController;
 
+	private CreateTemplateController createTemplateController;
+
+	private ExportTemplateController exportTemplateController;
+	private ChangePalettePanelController changePalettePanelController;
+
 	// Constants for colors
-	private static Color[] colorPalette = {
+	private static Color[] rubiksPalette = {
 			Color.WHITE, Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE
 	};
+	private static Color[] matchStickPalette = {
+			Color.RED, Color.orange
+	};
+
 
 
 	// GUI Components
@@ -39,7 +43,9 @@ public class CreatorFrame extends JFrame implements Observer{
 	private JPanel colorPalettePanel;
 	private JButton createTemplateButton;
 	private JButton exportTemplateButton;
-	private JPanel previewPanel;
+	private JLabel previewPanel;
+
+	private String templateType;
 
 	public CreatorFrame() {
 
@@ -53,6 +59,10 @@ public class CreatorFrame extends JFrame implements Observer{
 		this.subject.attach(this);
 		this.controller = new Controller(this, subject, creator);
 		this.selectImageController = new SelectImageController(this, subject, creator);
+		this.createTemplateController = new CreateTemplateController(this, subject, creator);
+		this.exportTemplateController = new ExportTemplateController(this, subject, creator);
+		this.changePalettePanelController = new ChangePalettePanelController(this, subject, creator);
+		this.templateType = "rubiks";
 
 		// Initialize components
 		initializeComponents();
@@ -69,7 +79,7 @@ public class CreatorFrame extends JFrame implements Observer{
 		// Image Placeholder
 		imagePlaceholder = new JPanel();
 		imagePlaceholder.setBounds(50, 30, 150, 150);
-		imagePlaceholder.setBackground(new Color(49,49,49,255));
+		imagePlaceholder.setBackground(new Color(49, 49, 49, 255));
 		add(imagePlaceholder);
 
 		// Path TextField
@@ -87,18 +97,12 @@ public class CreatorFrame extends JFrame implements Observer{
 		String[] templateModels = {"Rubiks Cubes", "Match Sticks"};
 		templateModelComboBox = new JComboBox<>(templateModels);
 		templateModelComboBox.setBounds(220, 300, 150, 30);
+		templateModelComboBox.addActionListener(changePalettePanelController);
 		add(templateModelComboBox);
 
 		// Color Palette Colors Panel
 		colorPalettePanel = new JPanel();
-		colorPalettePanel.setBounds(220, 340, 25 * colorPalette.length, 20);
-		colorPalettePanel.setLayout(new GridLayout(1,colorPalette.length , 5, 5));
-
-		for (Color color : colorPalette) {
-			JPanel colorBox = new JPanel();
-			colorBox.setBackground(color);
-			colorPalettePanel.add(colorBox);
-		}
+		updatePalettePanel(0);
 
 		add(colorPalettePanel);
 
@@ -106,12 +110,14 @@ public class CreatorFrame extends JFrame implements Observer{
 		createTemplateButton = new JButton("Create Template");
 		createTemplateButton.setBounds(50, 450, 150, 30);
 		createTemplateButton.setEnabled(false); // Initially disabled
+		createTemplateButton.addActionListener(this.createTemplateController);
 		add(createTemplateButton);
 
 		// Export Template Button
-		exportTemplateButton = new JButton("Export Template");
+		exportTemplateButton = new JButton("Export Preview");
 		exportTemplateButton.setBounds(220, 450, 150, 30);
 		exportTemplateButton.setEnabled(false); // Initially disabled
+		exportTemplateButton.addActionListener(this.exportTemplateController);
 		add(exportTemplateButton);
 
 		// Preview Label
@@ -119,13 +125,71 @@ public class CreatorFrame extends JFrame implements Observer{
 		previewLabel.setBounds(450, 30, 100, 30);
 		add(previewLabel);
 
-		// Preview Panel
-		previewPanel = new JPanel();
-		previewPanel.setBounds(450, 70, 320, 320);
-		previewPanel.setBackground(new Color(49,49,49,255));
+		// Preview
+		previewPanel = new JLabel();
+		previewPanel.setBounds(450, 60, 320, 320);
+		previewPanel.setBackground(new Color(49, 49, 49, 255));
 		add(previewPanel);
 	}
+	private void updatePalettePanel(int paletteIndex){
+		Color[] actualPalette;
+		if (paletteIndex == 0){
+			actualPalette = rubiksPalette;
+			this.templateType = "rubiks";
+		}else{
+			actualPalette = matchStickPalette;
+			this.templateType = "matchsticks";
+		}
+		colorPalettePanel.removeAll();
+		colorPalettePanel.setBounds(220, 340, 25 * actualPalette.length, 20);
+		colorPalettePanel.setLayout(new GridLayout(1, actualPalette.length, 5, 5));
 
+		for (Color color : actualPalette) {
+			JPanel colorBox = new JPanel();
+			colorBox.setBackground(color);
+			colorPalettePanel.add(colorBox);
+		}
+		this.validate();
+		this.repaint();
+	}
+
+	public void setPathTextField(String newPath) {
+		pathTextField.setText(newPath);
+	}
+
+	public void updatePreview() {
+		BufferedImage templateImage = this.creator.getTemplateImage();
+		if (templateImage != null) {
+			int templateHeight = templateImage.getHeight();
+			int templateWidth = templateImage.getWidth();
+			int longestSide = Math.max(templateWidth, templateHeight);
+			int previewSize = previewPanel.getHeight();
+			double factor = previewSize / longestSide;
+			int newWidth = (int) (templateWidth * factor);
+			int newHeight = (int) (templateHeight * factor);
+			Image scaledImage = templateImage.getScaledInstance(newWidth, newHeight, 2);
+			previewPanel.setIcon(new ImageIcon(scaledImage));
+			previewPanel.setLocation(460, 40);
+		}
+	}
+	private void enableOptionalButtons(){
+		this.createTemplateButton.setEnabled(true);
+		this.exportTemplateButton.setEnabled(true);
+	}
+
+	public void updateColorPalette(){
+		int selected = this.templateModelComboBox.getSelectedIndex();
+		updatePalettePanel(selected);
+	}
+
+	public String getTemplateType(){
+		return this.templateType;
+	}
 	@Override
-	public void update(State newState) {/* modify view if necessary */}
+	public void update(State newState) {
+		updatePreview();
+		if (newState == State.S.TEMPLATE_CREATED) {
+			enableOptionalButtons();
+		}
+	}
 }

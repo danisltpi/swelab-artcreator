@@ -6,6 +6,7 @@ import java.io.File;
 import javax.swing.JFileChooser;
 
 import artcreator.creator.port.Creator;
+import artcreator.statemachine.port.State;
 import artcreator.statemachine.port.Subject;
 
 public class SelectImageController extends Controller {
@@ -19,13 +20,16 @@ public class SelectImageController extends Controller {
     public synchronized void actionPerformed(ActionEvent e) {
 			JFileChooser fileChooser = new JFileChooser();
 			fileChooser.setFileFilter(new ImageFileFilter());
-			int response = fileChooser.showOpenDialog(null);
+			int response = fileChooser.showOpenDialog(this.myView);
             System.out.println("SelectImageController: actionPerformed");
             File file;
 			if (response == JFileChooser.APPROVE_OPTION) {		
 				file = new File(fileChooser.getSelectedFile().getAbsolutePath());
                 System.out.println("Selected file: " + file.getAbsolutePath());
                 this.myModel.importImage(file);
+                this.myModel.createPreviewWithTemplate(this.myView.getTemplateType());
+                this.myView.setPathTextField(file.getAbsolutePath());
+                this.myView.update(State.S.START_PROCESS);
 			}
 
     }

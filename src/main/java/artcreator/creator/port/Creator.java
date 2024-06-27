@@ -7,6 +7,7 @@ public interface Creator {
 	
 	void sysop(String str);
 	void importImage(File file);
-	void chooseTemplateType(String type);
+	void createPreviewWithTemplate(String type);
 	BufferedImage getTemplateImage();
+	void saveTemplate(String path);
 }
