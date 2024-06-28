@@ -1,9 +1,12 @@
-package artcreator.gui;
+package artcreator.gui.controllers;
+
+import java.awt.event.ActionEvent;
+
+import javax.swing.JOptionPane;
 
 import artcreator.creator.port.Creator;
+import artcreator.gui.CreatorFrame;
 import artcreator.statemachine.port.Subject;
-import javax.swing.*;
-import java.awt.event.ActionEvent;
 
 public class CreateTemplateController extends Controller{
     public CreateTemplateController(CreatorFrame view, Subject subject, Creator model) {

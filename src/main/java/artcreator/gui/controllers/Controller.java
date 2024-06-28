@@ -1,4 +1,4 @@
-package artcreator.gui;
+package artcreator.gui.controllers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 import artcreator.creator.port.Creator;
+import artcreator.gui.CreatorFrame;
 import artcreator.statemachine.port.Observer;
 import artcreator.statemachine.port.State;
 import artcreator.statemachine.port.Subject;

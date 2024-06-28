@@ -1,12 +1,15 @@
-package artcreator.gui;
+package artcreator.gui.controllers;
 
-import artcreator.creator.port.Creator;
-import artcreator.statemachine.port.Subject;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.nio.file.Path;
+
+import javax.swing.JFileChooser;
+
+import artcreator.creator.port.Creator;
+import artcreator.gui.CreatorFrame;
+import artcreator.gui.filefilters.FolderFilter;
+import artcreator.statemachine.port.Subject;
 
 public class ExportTemplateController extends Controller{
     public ExportTemplateController(CreatorFrame view, Subject subject, Creator model) {

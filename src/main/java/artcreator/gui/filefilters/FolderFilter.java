@@ -1,7 +1,8 @@
-package artcreator.gui;
+package artcreator.gui.filefilters;
+
+import java.io.File;
 
 import javax.swing.filechooser.FileFilter;
-import java.io.File;
 
 public class FolderFilter extends FileFilter {
     @Override

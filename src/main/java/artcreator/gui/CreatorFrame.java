@@ -1,12 +1,25 @@
 package artcreator.gui;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import artcreator.creator.CreatorFactory;
 import artcreator.creator.port.Creator;
+import artcreator.gui.controllers.ChangePalettePanelController;
+import artcreator.gui.controllers.Controller;
+import artcreator.gui.controllers.CreateTemplateController;
+import artcreator.gui.controllers.ExportTemplateController;
+import artcreator.gui.controllers.SelectImageController;
 import artcreator.statemachine.StateMachineFactory;
 import artcreator.statemachine.port.Observer;
 import artcreator.statemachine.port.State;

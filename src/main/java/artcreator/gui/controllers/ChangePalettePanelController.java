@@ -1,12 +1,10 @@
-package artcreator.gui;
+package artcreator.gui.controllers;
+
+import java.awt.event.ActionEvent;
 
 import artcreator.creator.port.Creator;
-import artcreator.statemachine.port.State;
+import artcreator.gui.CreatorFrame;
 import artcreator.statemachine.port.Subject;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.io.File;
 
 public class ChangePalettePanelController extends Controller{
 

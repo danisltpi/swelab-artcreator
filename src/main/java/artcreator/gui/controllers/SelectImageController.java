@@ -1,4 +1,4 @@
-package artcreator.gui;
+package artcreator.gui.controllers;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -6,6 +6,8 @@ import java.io.File;
 import javax.swing.JFileChooser;
 
 import artcreator.creator.port.Creator;
+import artcreator.gui.CreatorFrame;
+import artcreator.gui.filefilters.ImageFileFilter;
 import artcreator.statemachine.port.State;
 import artcreator.statemachine.port.Subject;
 
