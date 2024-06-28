@@ -19,6 +19,7 @@ public class CreatorImpl {
 	private Domain domain;
 
 	private BufferedImage image;
+	private BufferedImage originalImage;
 	private BufferedImage templateImage;
 	private int[] currentColors;
 
@@ -45,6 +46,7 @@ public class CreatorImpl {
         try {
 
 			BufferedImage tempImage = getImage(file);
+			this.originalImage = tempImage;
 			this.image = scaleImage(tempImage, 60, 60);
 			String path = "src/main/resources/";	// Todo: Debugging tool for visual output (temporary)
 			saveImage(this.image, path + "image_output.png");	// Todo: Debugging tool for visual output (temporary)
@@ -108,7 +110,7 @@ public class CreatorImpl {
 	 *
 	 * 24/06/18 - Jenny
 	 */
-	private BufferedImage scaleImage(BufferedImage originalImage, int targetWidth, int targetHeight) {
+	public BufferedImage scaleImage(BufferedImage originalImage, int targetWidth, int targetHeight) {
 
 		// Calculate the new dimensions while preserving the aspect ratio
 		int originalWidth = originalImage.getWidth();
@@ -148,11 +150,17 @@ public class CreatorImpl {
 	}
 
 	public void createPreviewWithTemplate(String type){
+		System.out.println("Creating preview with " + type);
 		String[] validTypes = {"rubiks", "matchsticks"};
 		if(!isTypeValid(type, validTypes)){
 			throw new Error("Invalid Type given.");
 		}
 		this.currentColors = domain.getPalette(type);
+		this.templateImage = convertPicture(this.image, this.currentColors);
+		stateMachine.setState(State.S.TEMPLATE_CREATED);
+	}
+
+	public void createPreviewOfOriginalPicture(){
 		this.templateImage = convertPicture(this.image, this.currentColors);
 		stateMachine.setState(State.S.TEMPLATE_CREATED);
 	}
@@ -214,8 +222,11 @@ public class CreatorImpl {
 	}
 
 	public BufferedImage getTemplateImage(){
-		BufferedImage newImage = this.templateImage;
-		return newImage;
+		return this.templateImage;
+	}
+
+	public BufferedImage getOriginalImage(){
+		return this.originalImage;
 	}
 
 	public void saveTemplate(String path) {
@@ -224,5 +235,9 @@ public class CreatorImpl {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public void setState(State state){
+		// this.stateMachine.setState(state);
 	}
 }

@@ -13,5 +13,6 @@ public class ChangePalettePanelController extends Controller{
     }
     public synchronized void actionPerformed(ActionEvent e) {
         this.myView.updateColorPalette();
+        this.myModel.createPreviewWithTemplate(this.myView.getTemplateType());
     }
 }

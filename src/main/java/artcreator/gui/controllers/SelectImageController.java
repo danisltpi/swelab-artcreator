@@ -25,10 +25,12 @@ public class SelectImageController extends Controller {
 			int response = fileChooser.showOpenDialog(this.myView);
             System.out.println("SelectImageController: actionPerformed");
             File file;
-			if (response == JFileChooser.APPROVE_OPTION) {		
+			if (response == JFileChooser.APPROVE_OPTION) {
+                this.myModel.setState(State.S.IMPORT_IMAGE);
 				file = new File(fileChooser.getSelectedFile().getAbsolutePath());
                 System.out.println("Selected file: " + file.getAbsolutePath());
                 this.myModel.importImage(file);
+                this.myView.updateOriginalPicturePreview();
                 this.myModel.createPreviewWithTemplate(this.myView.getTemplateType());
                 this.myView.setPathTextField(file.getAbsolutePath());
                 this.myView.update(State.S.START_PROCESS);

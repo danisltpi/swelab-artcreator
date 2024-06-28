@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.nio.Buffer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -50,7 +51,7 @@ public class CreatorFrame extends JFrame implements Observer {
 
 	// GUI Components
 	private JButton selectImageButton;
-	private JPanel imagePlaceholder;
+	private JLabel imagePlaceholder;
 	private JTextField pathTextField;
 	private JComboBox<String> templateModelComboBox;
 	private JPanel colorPalettePanel;
@@ -90,7 +91,7 @@ public class CreatorFrame extends JFrame implements Observer {
 		add(selectImageButton);
 
 		// Image Placeholder
-		imagePlaceholder = new JPanel();
+		imagePlaceholder = new JLabel();
 		imagePlaceholder.setBounds(50, 30, 150, 150);
 		imagePlaceholder.setBackground(new Color(49, 49, 49, 255));
 		add(imagePlaceholder);
@@ -173,18 +174,34 @@ public class CreatorFrame extends JFrame implements Observer {
 	public void updatePreview() {
 		BufferedImage templateImage = this.creator.getTemplateImage();
 		if (templateImage != null) {
-			int templateHeight = templateImage.getHeight();
-			int templateWidth = templateImage.getWidth();
-			int longestSide = Math.max(templateWidth, templateHeight);
-			int previewSize = previewPanel.getHeight();
-			double factor = previewSize / longestSide;
-			int newWidth = (int) (templateWidth * factor);
-			int newHeight = (int) (templateHeight * factor);
-			Image scaledImage = templateImage.getScaledInstance(newWidth, newHeight, 2);
+			Image scaledImage = scaleImage(templateImage, previewPanel);
 			previewPanel.setIcon(new ImageIcon(scaledImage));
-			previewPanel.setLocation(460, 40);
 		}
 	}
+
+	private Image scaleImage(BufferedImage image, JLabel label) {
+
+		int templateHeight = image.getHeight();
+		int templateWidth = image.getWidth();
+		int longestSide = Math.max(templateWidth, templateHeight);
+		int previewSize = label.getHeight();
+		double factor = previewSize / longestSide;
+		int newWidth = (int) (templateWidth * factor);
+		int newHeight = (int) (templateHeight * factor);
+		return image.getScaledInstance(newWidth, newHeight, 2);
+    }
+
+	public void updateOriginalPicturePreview() {
+		BufferedImage templateImage = this.creator.getOriginalImage();
+		if (templateImage != null) {
+			System.out.println("Hi");
+			Image scaledImage = this.creator.scaleImage(templateImage, imagePlaceholder.getWidth(), imagePlaceholder.getHeight());
+			imagePlaceholder.setIcon(new ImageIcon(scaledImage));
+			this.validate();
+			this.repaint();
+		}
+	}
+
 	private void enableOptionalButtons(){
 		this.createTemplateButton.setEnabled(true);
 		this.exportTemplateButton.setEnabled(true);
@@ -204,5 +221,6 @@ public class CreatorFrame extends JFrame implements Observer {
 		if (newState == State.S.TEMPLATE_CREATED) {
 			enableOptionalButtons();
 		}
+
 	}
 }
