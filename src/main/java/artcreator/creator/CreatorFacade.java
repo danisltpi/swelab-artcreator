@@ -69,7 +69,7 @@ public class CreatorFacade implements CreatorFactory, Creator {
 	}
 
 	public void setState(State state) {
-		this.creator.setState(state);
+		this.stateMachine.setState(state);
 	}
 
 

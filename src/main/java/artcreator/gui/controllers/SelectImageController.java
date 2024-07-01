@@ -26,7 +26,7 @@ public class SelectImageController extends Controller {
             System.out.println("SelectImageController: actionPerformed");
             File file;
 			if (response == JFileChooser.APPROVE_OPTION) {
-                this.myModel.setState(State.S.IMPORT_IMAGE);
+                this.myModel.setState(State.S.CREATE_TEMPLATE);
 				file = new File(fileChooser.getSelectedFile().getAbsolutePath());
                 System.out.println("Selected file: " + file.getAbsolutePath());
                 this.myModel.importImage(file);
